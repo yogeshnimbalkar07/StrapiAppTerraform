@@ -19,6 +19,9 @@ jobs:
           node-version: '18'
 
       - name: Install dependencies
+        run: npm cache clean
+        
+      - name: Install dependencies
         run: npm install
         working-directory: ./ 
 
