@@ -15,6 +15,7 @@ resource "aws_instance" "strapi" {
               #!/bin/bash
               sudo apt update -y
               sudo apt install -y nodejs npm git
+              sudo npm init -y
               curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash -
               sudo apt-get install -y nodejs
               sudo npm install pm2 -g
