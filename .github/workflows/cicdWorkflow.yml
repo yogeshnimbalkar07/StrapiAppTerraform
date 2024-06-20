@@ -20,15 +20,15 @@ jobs:
         
       - name: Install dependencies
         run: npm install
-        working-directory: ./StrapiAppTerraform
+        
 
       - name: Run tests
         run: npm test
-        working-directory: ./StrapiAppTerraform
+        
 
       - name: Build Strapi project
         run: npm run build
-        working-directory: ./StrapiAppTerraform
+       
 
       - name: Deploy with PM2
         run: |
