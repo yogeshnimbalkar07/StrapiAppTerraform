@@ -35,7 +35,7 @@ jobs:
           pm2 stop all || true
           pm2 delete all || true
           pm2 start npm --name "strapi" -- start
-        working-directory: ./StrapiAppTerraform
+        working-directory: ./
 
    
    
