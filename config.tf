@@ -2,7 +2,7 @@ provider "aws" {
   region = var.aws_region
 }
 
-resource "aws_instance" "strapi" {
+resource "aws_instance" "strapi_instance" {
   ami           = "ami-0f58b397bc5c1f2e8" 
   instance_type = var.instance_type
   key_name      = var.key_name
@@ -53,11 +53,11 @@ resource "aws_instance" "strapi" {
   }
 
   provisioner "local-exec" {
-    command = "echo '${aws_instance.strapi.public_ip}' > ip_address.txt"
+    command = "echo '${aws_instance.strapi_instance.public_ip}' > ip_address.txt"
   }
 }
 
 output "instance_public_ip" {
-  value = aws_instance.strapi.public_ip
+  value = aws_instance.strapi_instance.public_ip
 }
 
