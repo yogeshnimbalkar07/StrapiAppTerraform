@@ -15,11 +15,20 @@ resource "aws_instance" "strapi1" {
               #!/bin/bash
               # Update and install required packages
               sudo apt-get update
-              sudo apt-get install -y curl
 
-              # Install Node.js and npm
-              curl -fsSL https://deb.nodesource.com/setup_14.x | sudo -E bash -
-              sudo apt-get install -y nodejs
+              #cmd for install node
+              curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash 
+
+              #for shell
+              . ~/.nvm/nvm.sh
+
+              #to install node 
+              nvm install node
+
+              #update dependencies
+              sudo apt-get update
+
+              nvm install 18
 
               # Install PM2 process manager
               sudo npm install -g pm2
@@ -27,17 +36,16 @@ resource "aws_instance" "strapi1" {
               # Download and install Strapi
               mkdir /srv/strapi
               cd /srv/strapi
-              sudo npm install strapi@latest -g
 
-              # Create a new Strapi project
-              sudo strapi new my-strapi-project --quickstart
+              #create strapi app by command
+              npx create-strapi-app@latest my-project3 --quickstart
 
+        
               # Start Strapi in production mode
-              cd my-strapi-project
+              cd my-project3
+              sudo npm run develop
               sudo npm run start
 
-              # Optional: Set up Nginx or another reverse proxy for serving Strapi
-              # Ensure to configure security groups and network settings as needed
               EOF
 
   lifecycle {
