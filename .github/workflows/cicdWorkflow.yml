@@ -30,16 +30,12 @@ jobs:
         run: npm run build
         working-directory: ./StrapiAppTerraform
 
-      - name: Deploy to PP2
+      - name: Deploy with PM2
         run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.PP2_USER }}@${{ secrets.PP2_HOST }} << 'EOF'
-          cd /home/${{ secrets.PP2_USER }}/strapi-app
-          tar -xzf strapi-build.tar.gz
-          rm -rf strapi-build.tar.gz
-          npm install
-          npm run build
-          pm2 restart all
-          EOF
+          pm2 stop all || true
+          pm2 delete all || true
+          pm2 start npm --name "strapi" -- start
+        working-directory: ./StrapiAppTerraform 
 
    
    
