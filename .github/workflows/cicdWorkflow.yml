@@ -1,4 +1,4 @@
-name: CI/CD Pipeline Workflow
+name: Node.js CI
 
 on:
   push:
@@ -6,28 +6,31 @@ on:
       - master
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+    - uses: actions/checkout@v4
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 18
-        
-      - name: Install dependencies
-        run: npm install
-        working-directory: ./ 
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 18
 
-      - name: Run build
-        run: npm run build
-        
-      - name: Deploy with PM2
-        run: |
-          pm2 stop all || true
-          pm2 delete all || true
-          pm2 start npm --name "strapi" -- start
-        working-directory: ./ 
+    - name: Change to app directory
+      run: cd StrapiAppTerraform
+
+    - name: Cache Node.js dependencies
+      uses: actions/cache@v4
+      with:
+        path: ~/.npm
+        key: ${{ runner.os }}-node-${{ hashFiles('**/StrapiAppTerraform/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-
+          ${{ runner.os }}-
+
+    - name: Install dependencies
+      run: cd StrapiAppTerraform && npm install
+
+    - name: Run build
+      run: cd StrapiAppTerraform && npm run build
