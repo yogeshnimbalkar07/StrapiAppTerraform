@@ -30,6 +30,18 @@ jobs:
         run: npm run build
         working-directory: ./StrapiAppTerraform
 
+      - name: Archive production artifacts
+        if: success()
+        run: tar -czf strapi-build.tar.gz -C ./StrapiAppTerraform .
+        continue-on-error: true
+
+      - name: Upload artifacts
+        if: success()
+        uses: actions/upload-artifact@v3
+        with:
+         name: strapi-artifacts
+         path: strapi-build.tar.gz
+
    
       - name: Deploy with PM2
         run: |
