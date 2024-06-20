@@ -20,7 +20,7 @@ resource "aws_instance" "strapi" {
               sudo npm install pm2 -g
               sudo mkdir -p /srv/strapi
               sudo chown -R ubuntu:ubuntu /srv/strapi
-              git clone https://github.com/yogeshnimbalkar07/StrapiAppTerraform /srv/strapi
+              git clone https://github.com/PearlThoughts-DevOps-Internship/strapi /srv/strapi
               cd /srv/strapi
               npm install
               pm2 start npm --name "strapi" -- start
