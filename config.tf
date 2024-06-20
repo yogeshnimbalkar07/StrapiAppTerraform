@@ -2,7 +2,7 @@ provider "aws" {
   region = var.aws_region
 }
 
-resource "aws_instance" "strapi1" {
+resource "aws_instance" "strapi" {
   ami           = "ami-0f58b397bc5c1f2e8" 
   instance_type = var.instance_type
   key_name      = var.key_name
