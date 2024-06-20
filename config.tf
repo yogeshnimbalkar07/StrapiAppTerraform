@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 resource "aws_instance" "strapi1" {
-  ami           = "ami-0f58b397bc5c1f2e8" # Replace with your preferred AMI ID
+  ami           = "ami-0f58b397bc5c1f2e8" 
   instance_type = var.instance_type
   key_name      = var.key_name
 
@@ -13,17 +13,31 @@ resource "aws_instance" "strapi1" {
 
   user_data = <<-EOF
               #!/bin/bash
-              sudo apt update -y
-              sudo apt install -y nodejs npm git
-              curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash -
+              # Update and install required packages
+              sudo apt-get update
+              sudo apt-get install -y curl
+
+              # Install Node.js and npm
+              curl -fsSL https://deb.nodesource.com/setup_14.x | sudo -E bash -
               sudo apt-get install -y nodejs
-              sudo npm install pm2 -g
-              sudo mkdir -p /srv/strapi
-              sudo chown -R ubuntu:ubuntu /srv/strapi
-              git clone https://github.com/yogeshnimbalkar07/StrapiAppTerraform /srv/strapi
+
+              # Install PM2 process manager
+              sudo npm install -g pm2
+
+              # Download and install Strapi
+              mkdir /srv/strapi
               cd /srv/strapi
-              npm install
-              pm2 start npm --name "strapi" -- start
+              sudo npm install strapi@latest -g
+
+              # Create a new Strapi project
+              sudo strapi new my-strapi-project --quickstart
+
+              # Start Strapi in production mode
+              cd my-strapi-project
+              sudo npm run start
+
+              # Optional: Set up Nginx or another reverse proxy for serving Strapi
+              # Ensure to configure security groups and network settings as needed
               EOF
 
   lifecycle {
