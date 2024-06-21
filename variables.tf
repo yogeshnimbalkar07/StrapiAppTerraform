@@ -10,6 +10,6 @@ variable "instance_type" {
 
 variable "key_name" {
   description = "SSH key pair"
-  default     = "StrapiAppKey"
+  default     = "StrapiAppKey1"
 }
 
