@@ -2,10 +2,15 @@ provider "aws" {
   region = var.aws_region
 }
 
+resource "aws_key_pair" "my_key_pair" {
+  key_name   = var.key_name
+  public_key = file("${abspath(path.cwd)}/my-key.pub")
+}
+
 resource "aws_instance" "strapi_instance" {
   ami           = "ami-0f58b397bc5c1f2e8" 
   instance_type = var.instance_type
-  key_name      = var.key_name
+  key_name      = aws_key_pair.my_key_pair.key_name
 
   tags = {
     Name = "StrapiServer1"
