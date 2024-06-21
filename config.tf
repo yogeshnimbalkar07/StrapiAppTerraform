@@ -8,7 +8,7 @@ resource "aws_instance" "strapi_instance" {
   key_name      = var.key_name
 
   tags = {
-    Name = "StrapiServer"
+    Name = "StrapiServer1"
   }
 
   user_data = <<-EOF
